@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.roomCodeContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 1rem;
+  width: max-content;
+}
+
+.roomCode {
+  position: absolute;
+  top: 1rem;
+  min-width: fit-content;
+}

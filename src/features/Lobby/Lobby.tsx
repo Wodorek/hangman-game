@@ -2,7 +2,9 @@ import classes from './Lobby.module.css';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import socket from '../socket/socket';
-import Modal from '../Modal/Modal';
+import Popup from '../Popup/Popup';
+import { useDispatch } from 'react-redux';
+import { saveRoomId } from '../Game/gameSlice';
 
 const Lobby = () => {
   const [roomId, setRoomId] = useState('');
@@ -11,18 +13,23 @@ const Lobby = () => {
   const [joiningUser, setJoiningUser] = useState({ username: '', id: '' });
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  const knockToRoom = (roomId: String) => {
+  const knockToRoom = (roomId: string) => {
+    console.log(roomId);
     socket.emit('knock to room', { roomId: roomId });
+    dispatch(saveRoomId(roomId));
   };
 
   const createRoomHandler = () => {
-    if (socket.id === undefined) {
+    if (socket.connected === false) {
       alert('seems like you got disconnected, please reconnect');
       history.replace('/');
     }
     setRoomCode(socket.id);
   };
+
+  const declineEntranceHandler = () => {};
 
   useEffect(() => {
     socket.on('user knocking', (socket) => {
@@ -32,17 +39,23 @@ const Lobby = () => {
 
     socket.on('entrance allowed', ({ roomId }) => {
       socket.emit('join room', { roomId: roomId });
+      history.push('/game');
     });
 
     return () => {
       socket.off('user knocking');
       socket.off('entrance allowed');
     };
-  }, []);
+  }, [history]);
 
   return (
     <div className={classes.container}>
-      {showModal ? <Modal joiningUser={joiningUser} /> : null}
+      {showModal ? (
+        <Popup
+          declineEntrance={declineEntranceHandler}
+          joiningUser={joiningUser}
+        />
+      ) : null}
       <div>
         <button onClick={() => knockToRoom(roomId)}>Join room</button>
         <input onChange={(event) => setRoomId((prev) => event.target.value)} />

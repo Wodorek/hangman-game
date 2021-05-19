@@ -1,0 +1,21 @@
+.container {
+  height: 3rem;
+  width: 3rem;
+  display: flex;
+  background-color: salmon;
+  justify-content: center;
+  align-items: center;
+}
+.container:hover {
+  cursor: pointer;
+}
+
+.letter {
+  line-height: 0;
+  font-size: 2rem;
+  margin: 0;
+}
+
+.disabled {
+  cursor: not-allowed;
+}

@@ -1,0 +1,42 @@
+.container {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  height: 6rem;
+  width: 22rem;
+  background-color: dodgerblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.buttonsGroup {
+  position: absolute;
+  bottom: 0.5rem;
+  width: inherit;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.popupText {
+  margin: 0 0 2rem 0;
+  text-align: center;
+  font-weight: 600;
+}
+
+.popupButton {
+  background-color: royalblue;
+  border-radius: 0.4rem;
+  border: none;
+  min-height: 2rem;
+  min-width: 5rem;
+  font-size: 1rem;
+  color: white;
+  cursor: pointer;
+}
+
+.popupButton:hover {
+  box-shadow: 0 0 10px white;
+}

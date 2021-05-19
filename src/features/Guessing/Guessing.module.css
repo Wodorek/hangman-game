@@ -1,0 +1,14 @@
+.wordToGuess {
+  display: flex;
+}
+
+.wordLetter {
+  margin-right: 1rem;
+  font-size: 4rem;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}

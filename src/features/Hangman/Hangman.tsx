@@ -1,6 +1,10 @@
 import React from 'react';
 
-const Hangman = () => {
+interface IProps {
+  incorrectGuesses: number;
+}
+
+const Hangman: React.FC<IProps> = (props) => {
   return <div></div>;
 };
 

@@ -1,78 +1,55 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Guessing from '../Guessing/Guessing';
 import Hangman from '../Hangman/Hangman';
 import WordSelect from '../WordSelect/WordSelect';
+import socket from '../socket/socket';
+import { useLocation } from 'react-router-dom';
+
+interface LocationState {
+  isHost: boolean;
+}
 
 const Game = () => {
-  const [isHost, setIsHost] = useState(true);
+  const [isHost, setIsHost] = useState<boolean | null>(null);
   const [word, setWord] = useState('');
-  const [incorrectGuesses, setIncorrectGuesses] = useState(1);
-  const [won, setWon] = useState(false);
-  const [lost, setLost] = useState(false);
+  const [incorrectGuesses, setIncorrectGuesses] = useState(0);
+
+  const location = useLocation<LocationState>();
 
   const incorrectGuessHandler = () => {
     setIncorrectGuesses((prev) => prev + 1);
   };
 
-  const resetGameState = () => {
-    setWord('');
-    setIncorrectGuesses(0);
-    setWon(false);
-    setLost(false);
-  };
+  useEffect(() => {
+    if (isHost === null) {
+      setIsHost(location.state.isHost);
+    }
 
-  console.log(word);
+    socket.on('game reset', (swap) => {
+      if (swap) {
+        setIsHost((prev) => !prev);
+        setIncorrectGuesses(0);
+      }
+    });
+
+    return () => {
+      socket.off('game reset');
+    };
+  }, [isHost, location.state.isHost]);
 
   return (
     <div>
       <Hangman incorrectGuesses={incorrectGuesses} />
-      <WordSelect
-        reset={() => resetGameState()}
-        selectWord={(word: string) => setWord(word)}
-      />
-      <Guessing
-        setWon={(to: boolean) => setWon(to)}
-        setLost={(to: boolean) => setLost(to)}
-        won={won}
-        lost={lost}
-        guessIncorrect={() => incorrectGuessHandler()}
-        incorrectGuesses={incorrectGuesses}
-        word={word}
-      />
+      {isHost ? (
+        <WordSelect selectWord={(word: string) => setWord(word)} />
+      ) : (
+        <Guessing
+          guessIncorrect={() => incorrectGuessHandler()}
+          incorrectGuesses={incorrectGuesses}
+        />
+      )}
     </div>
   );
-
-  // const [letters, setLetters] = useState<string[]>([]);
-  // const [letter, setLetter] = useState('');
-  // const roomId = useSelector((state: RootStateOrAny) => state.game.roomId);
-
-  // useEffect(() => {
-  //   socket.on('picked letter', (letter) => {
-  //     setLetters((prev) => [...prev, letter]);
-  //   });
-  // }, []);
-
-  // const pickLetterHandler = (event: React.FormEvent) => {
-  //   event.preventDefault();
-  //   socket.emit('pick letter', { roomId: roomId, letter: letter });
-  // };
-
-  // return (
-
-  //   <div>
-  //     {letters.map((el) => {
-  //       return <p key={el}>{el}</p>;
-  //     })}
-  //     <form onSubmit={(event) => pickLetterHandler(event)}>
-  //       <input
-  //         maxLength={1}
-  //         value={letter}
-  //         onChange={(event) => setLetter(event.target.value)}
-  //       />
-  //       <button>select</button>
-  //     </form>
-  //   </div>
-  // );
 };
 
 export default Game;

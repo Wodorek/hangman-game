@@ -1,0 +1,100 @@
+.container {
+  width: 100%;
+  background-color: orange;
+  height: 50vh;
+  position: relative;
+}
+
+.stand {
+  position: absolute;
+  bottom: 1rem;
+  right: calc(60% - 7rem);
+  border: 4px solid black;
+  width: 14rem;
+  background-color: black;
+}
+
+.pole {
+  position: absolute;
+  bottom: 1rem;
+  right: 60%;
+  height: 22rem;
+  border: 4px solid black;
+  background-color: black;
+  width: 0;
+}
+
+.support {
+  position: absolute;
+  bottom: calc(1rem + 22rem);
+  right: calc(60% - 9rem);
+  height: 0;
+  width: 9rem;
+  border: 4px solid black;
+  background-color: black;
+}
+
+.rope {
+  position: absolute;
+  right: calc(60% - 9rem);
+  bottom: calc(1rem + 22rem - 4rem);
+  width: 0;
+  height: 4rem;
+  border: 4px solid black;
+  background-color: black;
+}
+
+.head {
+  position: absolute;
+  right: calc(60% - 9rem - 1.5rem - 4px);
+  bottom: calc(1rem + 22rem - 4rem - 4rem);
+  height: 3rem;
+  width: 3rem;
+  border: 8px solid black;
+  border-radius: 20rem;
+}
+
+.torso {
+  position: absolute;
+  right: calc(60% - 9rem);
+  bottom: calc(1rem + 22rem - 4rem - 4rem - 4rem - 2px);
+  height: 4rem;
+  width: 0;
+  border: 4px solid black;
+  background-color: black;
+}
+
+.arm {
+  position: absolute;
+  right: calc(60% - 9rem - 1rem - 4px);
+  bottom: calc(1rem + 22rem - 4rem - 4rem - 3rem);
+  transform: rotate(45deg);
+  height: 3rem;
+  width: 0;
+  border: 4px solid black;
+  background-color: black;
+}
+
+.leg {
+  position: absolute;
+  height: 3rem;
+  width: 0;
+  right: calc(60% - 9rem - 1rem - 4px);
+  bottom: calc(1rem + 22rem - 4rem - 4rem - 4rem - 3rem);
+  transform: rotate(-45deg);
+  border: 4px solid black;
+  background-color: black;
+}
+
+.armLeft {
+  transform: rotate(-45deg);
+  right: calc(60% - 9rem - 2rem + 3rem + 4px);
+}
+.legLeft {
+  transform: rotate(45deg);
+  right: calc(60% - 9rem - 2rem + 3rem + 4px);
+}
+
+.hide {
+  display: none;
+}

@@ -21,7 +21,7 @@ const Popup: React.FC<IProps> = (props) => {
 
   const acceptKnockingHandler = () => {
     socket.emit('allow entrance', { userId: id });
-    history.push('/game');
+    history.push('/game', { isHost: true });
     dispatch(saveRoomId(socket.id));
   };
 

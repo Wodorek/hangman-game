@@ -38,8 +38,8 @@ const Lobby = () => {
     });
 
     socket.on('entrance allowed', ({ roomId }) => {
+      history.push('/game', { isHost: false });
       socket.emit('join room', { roomId: roomId });
-      history.push('/game');
     });
 
     return () => {

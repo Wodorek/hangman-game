@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
+
 import classes from './LetterButton.module.css';
 
 interface IProps {
   letter: string;
   select: Function;
-  alreadyGuessed: string[];
 }
 
 const LetterButton: React.FC<IProps> = (props) => {
@@ -12,13 +12,8 @@ const LetterButton: React.FC<IProps> = (props) => {
 
   const letterSelectHandler = () => {
     props.select();
+    setDisabled(true);
   };
-
-  useEffect(() => {
-    if (props.alreadyGuessed.includes(props.letter)) {
-      setDisabled(true);
-    }
-  }, [props.alreadyGuessed, props.letter]);
 
   return (
     <button

@@ -37,14 +37,14 @@ const Lobby = () => {
       setJoiningUser(socket);
     });
 
-    socket.on('entrance allowed', ({ roomId }) => {
+    socket.on('allow entrance', ({ roomId }) => {
       history.push('/game', { isHost: false });
       socket.emit('join room', { roomId: roomId });
     });
 
     return () => {
       socket.off('user knocking');
-      socket.off('entrance allowed');
+      socket.off('allow entrance');
     };
   }, [history]);
 

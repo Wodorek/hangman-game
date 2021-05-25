@@ -3,7 +3,8 @@ import Guessing from '../Guessing/Guessing';
 import Hangman from '../Hangman/Hangman';
 import WordSelect from '../WordSelect/WordSelect';
 import socket from '../socket/socket';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+import GameOverScreen from '../GameOverScreen/GameOverScreen';
 
 interface LocationState {
   isHost: boolean;
@@ -11,39 +12,68 @@ interface LocationState {
 
 const Game = () => {
   const [isHost, setIsHost] = useState<boolean | null>(null);
-  const [word, setWord] = useState('');
+  const [gameOver, setGameOver] = useState(false);
   const [incorrectGuesses, setIncorrectGuesses] = useState(0);
+  const [word, setWord] = useState('');
 
   const location = useLocation<LocationState>();
+  const history = useHistory();
 
   const incorrectGuessHandler = () => {
     setIncorrectGuesses((prev) => prev + 1);
   };
 
+  console.log(isHost);
+
   useEffect(() => {
+    if (location.state === undefined) {
+      return history.replace('/');
+    }
+
     if (isHost === null) {
       setIsHost(location.state.isHost);
     }
 
+    socket.on('game over', (won) => {
+      setGameOver(true);
+    });
+
     socket.on('game reset', (swap) => {
+      console.log('game resetting / game');
       if (swap) {
         setIsHost((prev) => !prev);
-        setIncorrectGuesses(0);
       }
+      setWord('');
+      setIncorrectGuesses(0);
+      setGameOver(false);
+    });
+
+    socket.on('word select', (word) => {
+      setWord(word);
     });
 
     return () => {
+      socket.off('word select');
+      socket.off('game over');
       socket.off('game reset');
     };
-  }, [isHost, location.state.isHost]);
+  }, [history, isHost, location.state]);
 
   return (
     <div>
-      <Hangman incorrectGuesses={incorrectGuesses} />
+      <Hangman
+        word={word}
+        gameOver={gameOver}
+        incorrectGuesses={incorrectGuesses}
+      />
       {isHost ? (
-        <WordSelect selectWord={(word: string) => setWord(word)} />
+        <>
+          {gameOver ? <GameOverScreen /> : <WordSelect gameOver={gameOver} />}
+        </>
       ) : (
         <Guessing
+          word={word}
+          gameOver={gameOver}
           guessIncorrect={() => incorrectGuessHandler()}
           incorrectGuesses={incorrectGuesses}
         />

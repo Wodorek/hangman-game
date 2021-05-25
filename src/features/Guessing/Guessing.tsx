@@ -3,11 +3,12 @@ import React, { useEffect, useState } from 'react';
 import LetterButton from '../LetterButton/LetterButton';
 import socket from '../socket/socket';
 import { RootStateOrAny, useSelector } from 'react-redux';
-import GameOverScreen from '../GameOverScreen/GameOverScreen';
 
 interface IProps {
   incorrectGuesses: number;
   guessIncorrect: Function;
+  gameOver: boolean;
+  word: string;
 }
 
 interface IWord {
@@ -17,9 +18,6 @@ interface IWord {
 
 const Guessing: React.FC<IProps> = (props) => {
   const [wordToGuess, setWordToGuess] = useState<IWord[]>([]);
-  const [alreadyGuessed, setAlreadyGuessed] = useState<string[]>([]);
-  const [won, setWon] = useState(false);
-  const [lost, setLost] = useState(false);
 
   const gameRoom = useSelector((state: RootStateOrAny) => state.game.roomId);
   const alphabeth = 'abcdefghijklmnopqrstuvwxyz';
@@ -37,13 +35,11 @@ const Guessing: React.FC<IProps> = (props) => {
 
     if (alreadyWon) {
       socket.emit('game over', { won: true, roomId: gameRoom });
-      return setWon(true);
     }
 
     //check for loss
     if (props.incorrectGuesses === 9) {
       socket.emit('game over', { won: false, roomId: gameRoom });
-      return setLost(true);
     }
   };
 
@@ -64,11 +60,8 @@ const Guessing: React.FC<IProps> = (props) => {
       props.guessIncorrect((prev: number) => prev + 1);
     }
     socket.emit('pick letter', { letter: lowercased, roomId: gameRoom });
-    setAlreadyGuessed((prev) => [...prev, letter]);
     setWordToGuess(afterGuess);
     checkForGameEnd();
-    console.log(props.incorrectGuesses);
-    console.log(guessCorrect);
   };
 
   useEffect(() => {
@@ -87,32 +80,22 @@ const Guessing: React.FC<IProps> = (props) => {
       setWordToGuess(prepared);
     };
 
-    socket.on('word selected', (word) => {
-      prepareWord(word);
-    });
+    prepareWord(props.word);
 
-    socket.on('letter picked', (letter) => {
+    socket.on('pick letter', (letter) => {
       console.log(letter);
     });
 
-    socket.on('game reset', () => {
-      console.log('guessing.tsx');
-      setWordToGuess([]);
-      setAlreadyGuessed([]);
-      setWon(false);
-      setLost(false);
-    });
-
     return () => {
-      socket.off('letter picked');
-      socket.off('word selected');
+      socket.off('pick letter');
     };
-  }, []);
+  }, [props.word]);
+
   return (
     <div>
-      {!won && !lost ? (
-        <>
-          {wordToGuess.length > 0 ? (
+      <>
+        {wordToGuess.length > 0 && !props.gameOver ? (
+          <>
             <div className={classes.wordToGuess}>
               {wordToGuess.map((el: any, idx) => {
                 if (el.letter === ' ') {
@@ -142,26 +125,22 @@ const Guessing: React.FC<IProps> = (props) => {
                 );
               })}
             </div>
-          ) : (
-            <div>Czekej</div>
-          )}
-
-          <div className={classes.buttonsContainer}>
-            {alphabeth.split('').map((el) => {
-              return (
-                <LetterButton
-                  alreadyGuessed={alreadyGuessed}
-                  key={el}
-                  letter={el}
-                  select={() => guessLetterHandler(el)}
-                />
-              );
-            })}
-          </div>
-        </>
-      ) : (
-        <GameOverScreen won={won ? true : false} />
-      )}
+            <div className={classes.buttonsContainer}>
+              {alphabeth.split('').map((el) => {
+                return (
+                  <LetterButton
+                    key={el}
+                    letter={el}
+                    select={() => guessLetterHandler(el)}
+                  />
+                );
+              })}
+            </div>
+          </>
+        ) : (
+          <div>{props.gameOver ? null : 'Poczekaj na wybór słowa'}</div>
+        )}
+      </>
     </div>
   );
 };

@@ -1,4 +1,7 @@
 .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   background-color: orange;
   height: 50vh;
@@ -97,4 +100,9 @@
 
 .hide {
   display: none;
+}
+
+.endMessage {
+  margin: 0;
+  font-size: 5rem;
 }

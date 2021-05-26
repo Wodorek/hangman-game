@@ -5,12 +5,15 @@ import socket from '../socket/socket';
 import Popup from '../Popup/Popup';
 import { useDispatch } from 'react-redux';
 import { saveRoomId } from '../Game/gameSlice';
+import useSound from 'use-sound';
+import popSound from '../../sounds/popSound.mp3';
 
 const Lobby = () => {
   const [roomId, setRoomId] = useState('');
   const [roomCode, setRoomCode] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [joiningUser, setJoiningUser] = useState({ username: '', id: '' });
+  const [play] = useSound(popSound);
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -34,6 +37,7 @@ const Lobby = () => {
   useEffect(() => {
     socket.on('user knocking', (socket) => {
       setShowModal(true);
+      play();
       setJoiningUser(socket);
     });
 
@@ -46,7 +50,7 @@ const Lobby = () => {
       socket.off('user knocking');
       socket.off('allow entrance');
     };
-  }, [history]);
+  }, [history, play]);
 
   return (
     <div className={classes.container}>

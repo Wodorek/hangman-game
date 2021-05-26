@@ -5,6 +5,8 @@ import WordSelect from '../WordSelect/WordSelect';
 import socket from '../socket/socket';
 import { useHistory, useLocation } from 'react-router-dom';
 import GameOverScreen from '../GameOverScreen/GameOverScreen';
+import penStroke from '../../sounds/penStroke.mp3';
+import useSound from 'use-sound';
 
 interface LocationState {
   isHost: boolean;
@@ -13,14 +15,17 @@ interface LocationState {
 const Game = () => {
   const [isHost, setIsHost] = useState<boolean | null>(null);
   const [gameOver, setGameOver] = useState(false);
+  const [guessedCorrectly, setGuessedCorrectly] = useState(false);
   const [incorrectGuesses, setIncorrectGuesses] = useState(0);
   const [word, setWord] = useState('');
+  const [play] = useSound(penStroke);
 
   const location = useLocation<LocationState>();
   const history = useHistory();
 
   const incorrectGuessHandler = () => {
     setIncorrectGuesses((prev) => prev + 1);
+    play();
   };
 
   console.log(isHost);
@@ -34,8 +39,9 @@ const Game = () => {
       setIsHost(location.state.isHost);
     }
 
-    socket.on('game over', (won) => {
+    socket.on('game over', (won: boolean) => {
       setGameOver(true);
+      setGuessedCorrectly(won);
     });
 
     socket.on('game reset', (swap) => {
@@ -62,6 +68,8 @@ const Game = () => {
   return (
     <div>
       <Hangman
+        isHost={isHost}
+        guessedCorrectly={guessedCorrectly}
         word={word}
         gameOver={gameOver}
         incorrectGuesses={incorrectGuesses}
@@ -69,6 +77,12 @@ const Game = () => {
       {isHost ? (
         <>
           {gameOver ? <GameOverScreen /> : <WordSelect gameOver={gameOver} />}
+          {word.length > 0 ? (
+            <div>
+              <p>You selected: </p>
+              <h3>{word}</h3>
+            </div>
+          ) : null}
         </>
       ) : (
         <Guessing

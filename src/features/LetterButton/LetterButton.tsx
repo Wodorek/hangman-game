@@ -5,6 +5,8 @@ import classes from './LetterButton.module.css';
 interface IProps {
   letter: string;
   select: Function;
+  word: string;
+  gameOver: boolean;
 }
 
 const LetterButton: React.FC<IProps> = (props) => {
@@ -15,13 +17,23 @@ const LetterButton: React.FC<IProps> = (props) => {
     setDisabled(true);
   };
 
+  console.log(props.word);
+
+  useEffect(() => {
+    setDisabled(false);
+  }, [props.word]);
+
   return (
     <button
-      disabled={disabled}
-      className={`${classes.container} ${disabled ? classes.disabled : ''}`}
+      disabled={props.word.length === 0 || disabled || props.gameOver}
+      className={`${classes.container} ${
+        disabled || props.word.length === 0 || props.gameOver
+          ? classes.disabled
+          : ''
+      }`}
       onClick={() => letterSelectHandler()}
     >
-      <p className={classes.letter}>{props.letter}</p>
+      <div className={classes.letter}>{props.letter}</div>
     </button>
   );
 };

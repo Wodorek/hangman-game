@@ -20,9 +20,9 @@ const Popup: React.FC<IProps> = (props) => {
   const { username, id } = props.joiningUser;
 
   const acceptKnockingHandler = () => {
+    dispatch(saveRoomId(socket.id));
     socket.emit('allow entrance', { userId: id });
     history.push('/game', { isHost: true });
-    dispatch(saveRoomId(socket.id));
   };
 
   return (

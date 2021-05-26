@@ -93,54 +93,48 @@ const Guessing: React.FC<IProps> = (props) => {
 
   return (
     <div>
-      <>
-        {wordToGuess.length > 0 && !props.gameOver ? (
-          <>
-            <div className={classes.wordToGuess}>
-              {wordToGuess.map((el: any, idx) => {
-                if (el.letter === ' ') {
-                  return (
-                    <p
-                      key={`${el.letter}${idx}`}
-                      className={classes.wordLetter}
-                    >
-                      &nbsp;
-                    </p>
-                  );
-                }
-                if (el.guessed === false) {
-                  return (
-                    <p
-                      key={`${el.letter}${idx}`}
-                      className={classes.wordLetter}
-                    >
-                      _
-                    </p>
-                  );
-                }
-                return (
-                  <p key={`${el.letter}${idx}`} className={classes.wordLetter}>
-                    {el.letter}
-                  </p>
-                );
-              })}
-            </div>
-            <div className={classes.buttonsContainer}>
-              {alphabeth.split('').map((el) => {
-                return (
-                  <LetterButton
-                    key={el}
-                    letter={el}
-                    select={() => guessLetterHandler(el)}
-                  />
-                );
-              })}
-            </div>
-          </>
-        ) : (
-          <div>{props.gameOver ? null : 'Poczekaj na wybór słowa'}</div>
-        )}
-      </>
+      {wordToGuess.length > 0 ? (
+        <div className={classes.wordToGuess}>
+          {wordToGuess.map((el: any, idx) => {
+            if (el.letter === ' ') {
+              return (
+                <p key={`${el.letter}${idx}`} className={classes.wordLetter}>
+                  &nbsp;
+                </p>
+              );
+            }
+            if (el.guessed === false) {
+              return (
+                <p key={`${el.letter}${idx}`} className={classes.wordLetter}>
+                  _
+                </p>
+              );
+            }
+            return (
+              <p key={`${el.letter}${idx}`} className={classes.wordLetter}>
+                {el.letter}
+              </p>
+            );
+          })}
+        </div>
+      ) : (
+        <div className={classes.placeholder}>
+          <h2>Please wait for the word to be selected</h2>
+        </div>
+      )}
+      <div className={classes.buttonsContainer}>
+        {alphabeth.split('').map((el) => {
+          return (
+            <LetterButton
+              gameOver={props.gameOver}
+              word={props.word}
+              key={el}
+              letter={el}
+              select={() => guessLetterHandler(el)}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };

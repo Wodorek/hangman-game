@@ -26,15 +26,15 @@ const WordSelect: React.FC<IProps> = (props) => {
   return (
     <div>
       <form onSubmit={wordSelectHandler}>
-        <label htmlFor="word">Wybierz słowo</label>
+        <label htmlFor="word">Select a word</label>
         <input
           required
           id="word"
           value={value}
           onChange={(event) => setValue((prev) => event.target.value)}
         />
-        {showError ? <p>Nie używaj polski znaków i cyfr</p> : null}
-        <button type="submit">Wybierz</button>
+        {showError ? <p>Please use just letters</p> : null}
+        <button type="submit">Select</button>
       </form>
     </div>
   );

@@ -5,6 +5,8 @@ interface IProps {
   incorrectGuesses: number;
   gameOver: boolean;
   word: string;
+  guessedCorrectly: boolean;
+  isHost: boolean | null;
 }
 
 const Hangman: React.FC<IProps> = (props) => {
@@ -115,8 +117,20 @@ const Hangman: React.FC<IProps> = (props) => {
         </>
       ) : (
         <>
-          <h1 className={classes.endMessage}>Zgadłeś !</h1>
-          <p>{gameOver ? props.word : null}</p>
+          <h1 className={classes.endMessage}>
+            {props.isHost ? (
+              <div>{`Your opponent guessed ${
+                props.guessedCorrectly ? 'correctly' : 'incorrectly'
+              }`}</div>
+            ) : (
+              <div>
+                {props.guessedCorrectly
+                  ? 'You got it!'
+                  : 'Sorry, you lost. The word was:'}
+              </div>
+            )}
+          </h1>
+          <p>{gameOver && !props.guessedCorrectly ? props.word : null}</p>
         </>
       )}
     </div>

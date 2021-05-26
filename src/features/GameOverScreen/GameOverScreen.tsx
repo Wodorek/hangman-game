@@ -13,8 +13,10 @@ const GameOverScreen: React.FC<IProps> = (props) => {
 
   return (
     <div>
-      <button onClick={() => gameResetHandler(false)}>Graj jeszcze raz</button>
-      <button onClick={() => gameResetHandler(true)}>Zmiana stron</button>
+      <button onClick={() => gameResetHandler(false)}>
+        Select another word
+      </button>
+      <button onClick={() => gameResetHandler(true)}>Swap sides</button>
     </div>
   );
 };

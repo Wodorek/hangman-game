@@ -8,90 +8,71 @@
   position: relative;
 }
 
+.stroke {
+  stroke: black;
+  stroke-width: 10;
+}
+
 .stand {
   position: absolute;
   bottom: 1rem;
-  right: calc(60% - 7rem);
-  border: 4px solid black;
-  width: 14rem;
-  background-color: black;
+  right: calc(60% - 9rem);
+  width: 18rem;
 }
 
 .pole {
   position: absolute;
   bottom: 1rem;
   right: 60%;
-  height: 22rem;
-  border: 4px solid black;
-  background-color: black;
-  width: 0;
+  height: 23rem;
 }
 
 .support {
   position: absolute;
-  bottom: calc(1rem + 22rem);
-  right: calc(60% - 9rem);
-  height: 0;
-  width: 9rem;
-  border: 4px solid black;
-  background-color: black;
+  bottom: calc(1rem + 21rem);
+  right: calc(60% - 9.5rem);
+  width: 12rem;
 }
 
 .rope {
   position: absolute;
   right: calc(60% - 9rem);
-  bottom: calc(1rem + 22rem - 4rem);
-  width: 0;
-  height: 4rem;
-  border: 4px solid black;
-  background-color: black;
+  bottom: calc(1rem + 22rem - 4.5rem);
+  height: 5rem;
 }
 
 .head {
   position: absolute;
   right: calc(60% - 9rem - 1.5rem - 4px);
   bottom: calc(1rem + 22rem - 4rem - 4rem);
-  height: 3rem;
-  width: 3rem;
-  border: 8px solid black;
-  border-radius: 20rem;
+  height: 4rem;
+  width: 4rem;
 }
 
 .torso {
   position: absolute;
   right: calc(60% - 9rem);
   bottom: calc(1rem + 22rem - 4rem - 4rem - 4rem - 2px);
-  height: 4rem;
-  width: 0;
-  border: 4px solid black;
-  background-color: black;
+  height: 5rem;
 }
 
 .arm {
   position: absolute;
-  right: calc(60% - 9rem - 1rem - 4px);
-  bottom: calc(1rem + 22rem - 4rem - 4rem - 3rem);
-  transform: rotate(45deg);
+  right: calc(60% - 9rem - 2.5rem);
+  bottom: calc(1rem + 22rem - 4rem - 4rem - 2rem);
   height: 3rem;
-  width: 0;
-  border: 4px solid black;
-  background-color: black;
 }
 
 .leg {
   position: absolute;
-  height: 3rem;
-  width: 0;
-  right: calc(60% - 9rem - 1rem - 4px);
-  bottom: calc(1rem + 22rem - 4rem - 4rem - 4rem - 3rem);
-  transform: rotate(-45deg);
-  border: 4px solid black;
-  background-color: black;
+  height: 4rem;
+  right: calc(60% - 9rem - 3rem);
+  bottom: calc(1rem + 22rem - 4rem - 4rem - 4rem - 3.5rem);
 }
 
-.armLeft {
-  transform: rotate(-45deg);
-  right: calc(60% - 9rem - 2rem + 3rem + 4px);
+.left {
+  transform: scale(-1, 1);
+  right: calc(60% - 9rem);
 }
 .legLeft {
   transform: rotate(45deg);

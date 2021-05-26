@@ -4,6 +4,7 @@ import socket from '../socket/socket';
 import { useDispatch } from 'react-redux';
 import { selectUsername } from './userSlice';
 import { useHistory } from 'react-router-dom';
+import Hangman from '../Hangman/Hangman';
 
 const UsernameSelect = () => {
   const [username, setUsername] = useState('');
@@ -29,21 +30,22 @@ const UsernameSelect = () => {
   }, []);
 
   return (
-    <div
-      onSubmit={(event) => submitHandler(event)}
-      className={classes.container}
-    >
-      <form className={classes.form}>
-        <label htmlFor="username">Twoja nazwa</label>
-        <input
-          required
-          id="username"
-          value={username}
-          onChange={(event) => setUsername((prev) => event.target.value)}
-        />
-        <button type="submit">Wybierz</button>
-      </form>
-    </div>
+    // <div
+    //   onSubmit={(event) => submitHandler(event)}
+    //   className={classes.container}
+    // >
+    //   <form className={classes.form}>
+    //     <label htmlFor="username">Twoja nazwa</label>
+    //     <input
+    //       required
+    //       id="username"
+    //       value={username}
+    //       onChange={(event) => setUsername((prev) => event.target.value)}
+    //     />
+    //     <button type="submit">Wybierz</button>
+    //   </form>
+    // </div>
+    <Hangman incorrectGuesses={12} gameOver={false} word={'michal'} />
   );
 };
 

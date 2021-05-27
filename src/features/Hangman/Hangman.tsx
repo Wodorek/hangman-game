@@ -121,7 +121,7 @@ const Hangman: React.FC<IProps> = (props) => {
             {props.isHost ? (
               <div>{`Your opponent guessed ${
                 props.guessedCorrectly ? 'correctly' : 'incorrectly'
-              }`}</div>
+              }!`}</div>
             ) : (
               <div>
                 {props.guessedCorrectly
@@ -130,7 +130,11 @@ const Hangman: React.FC<IProps> = (props) => {
               </div>
             )}
           </h1>
-          <p>{gameOver && !props.guessedCorrectly ? props.word : null}</p>
+          <p className={classes.correctWord}>
+            {gameOver && !props.guessedCorrectly && !props.isHost
+              ? props.word
+              : null}
+          </p>
         </>
       )}
     </div>

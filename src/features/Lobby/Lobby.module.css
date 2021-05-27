@@ -1,24 +1,44 @@
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+.outer {
   min-height: 100vh;
-}
-
-.roomCodeContainer {
-  position: relative;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 1rem;
-  width: max-content;
+  text-align: center;
 }
 
-.roomCode {
-  position: absolute;
-  top: 1rem;
-  min-width: 15rem;
+.inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10rem;
+  flex-direction: row;
+}
+
+.heading {
+  margin-top: -3rem;
+  margin-bottom: 5rem;
+}
+
+.box {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 3rem;
+  gap: 2rem;
+}
+
+.label {
+  margin-bottom: 0.5rem;
   text-align: center;
+}
+
+.code {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

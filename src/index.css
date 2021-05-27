@@ -1,15 +1,28 @@
-@import url('https://fonts.googleapis.com/css?family=Chilanka');
+@import url('https://fonts.googleapis.com/css?family=Comic+Neue');
 
 * {
-  font-family: -apple-system, BlinkMacSystemFont, 'Chilanka', 'Segoe UI',
+  font-family: -apple-system, BlinkMacSystemFont, 'Comic Neue', 'Segoe UI',
     'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
     'Helvetica Neue', sans-serif;
 }
 
 body {
+  background: linear-gradient(
+      rgba(245, 245, 245, 0.5),
+      rgba(245, 245, 245, 0.5)
+    ),
+    url('./Images/hangBack.png');
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+label {
+  font-size: 1.4rem;
+}
+
+input {
+  font-size: 1.4rem;
 }
 
 code {

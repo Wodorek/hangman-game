@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.buttons {
+  display: flex;
+  gap: 3rem;
+}
+
+.heading {
+  font-size: 2rem;
+}

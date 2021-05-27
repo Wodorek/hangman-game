@@ -6,7 +6,6 @@ import { RootStateOrAny, useSelector } from 'react-redux';
 
 interface IProps {
   incorrectGuesses: number;
-  guessIncorrect: Function;
   gameOver: boolean;
   word: string;
 }
@@ -56,10 +55,12 @@ const Guessing: React.FC<IProps> = (props) => {
       }
       return word;
     });
-    if (!guessCorrect) {
-      props.guessIncorrect((prev: number) => prev + 1);
-    }
-    socket.emit('pick letter', { letter: lowercased, roomId: gameRoom });
+
+    socket.emit('pick letter', {
+      letter: letter,
+      correct: guessCorrect,
+      roomId: gameRoom,
+    });
     setWordToGuess(afterGuess);
     checkForGameEnd();
   };
@@ -81,14 +82,6 @@ const Guessing: React.FC<IProps> = (props) => {
     };
 
     prepareWord(props.word);
-
-    socket.on('pick letter', (letter) => {
-      console.log(letter);
-    });
-
-    return () => {
-      socket.off('pick letter');
-    };
   }, [props.word]);
 
   return (

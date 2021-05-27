@@ -2,8 +2,7 @@
   position: relative;
   min-height: 3rem;
   min-width: 3rem;
-  background-color: salmon;
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.4);
+  background: transparent;
   border: none;
   cursor: pointer;
   user-select: none;
@@ -17,6 +16,13 @@
 
 .disabled,
 .disabled:hover {
+  color: black;
   cursor: not-allowed;
-  background-color: grey;
+}
+
+.crossed {
+  position: absolute;
+  width: 3rem;
+  height: 3rem;
+  z-index: 2;
 }

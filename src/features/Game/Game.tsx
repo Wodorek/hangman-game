@@ -17,18 +17,12 @@ const Game = () => {
   const [gameOver, setGameOver] = useState(false);
   const [guessedCorrectly, setGuessedCorrectly] = useState(false);
   const [incorrectGuesses, setIncorrectGuesses] = useState(0);
+  const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
   const [word, setWord] = useState('');
   const [play] = useSound(penStroke);
 
   const location = useLocation<LocationState>();
   const history = useHistory();
-
-  const incorrectGuessHandler = () => {
-    setIncorrectGuesses((prev) => prev + 1);
-    play();
-  };
-
-  console.log(isHost);
 
   useEffect(() => {
     if (location.state === undefined) {
@@ -45,25 +39,34 @@ const Game = () => {
     });
 
     socket.on('game reset', (swap) => {
-      console.log('game resetting / game');
       if (swap) {
         setIsHost((prev) => !prev);
       }
       setWord('');
       setIncorrectGuesses(0);
       setGameOver(false);
+      setGuessedLetters([]);
     });
 
     socket.on('word select', (word) => {
       setWord(word);
     });
 
+    socket.on('pick letter', ({ letter, correct }) => {
+      if (!correct) {
+        play();
+        setIncorrectGuesses((prev) => prev + 1);
+      }
+      setGuessedLetters((prev) => [...prev, letter]);
+    });
+
     return () => {
       socket.off('word select');
       socket.off('game over');
       socket.off('game reset');
+      socket.off('pick letter');
     };
-  }, [history, isHost, location.state]);
+  }, [history, incorrectGuesses, isHost, location.state, play]);
 
   return (
     <div>
@@ -76,19 +79,20 @@ const Game = () => {
       />
       {isHost ? (
         <>
-          {gameOver ? <GameOverScreen /> : <WordSelect gameOver={gameOver} />}
-          {word.length > 0 ? (
-            <div>
-              <p>You selected: </p>
-              <h3>{word}</h3>
-            </div>
-          ) : null}
+          {gameOver ? (
+            <GameOverScreen />
+          ) : (
+            <WordSelect
+              guessedLetters={guessedLetters}
+              word={word}
+              gameOver={gameOver}
+            />
+          )}
         </>
       ) : (
         <Guessing
           word={word}
           gameOver={gameOver}
-          guessIncorrect={() => incorrectGuessHandler()}
           incorrectGuesses={incorrectGuesses}
         />
       )}

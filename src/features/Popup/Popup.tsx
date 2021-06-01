@@ -27,14 +27,12 @@ const Popup: React.FC<IProps> = (props) => {
 
   return (
     <div className={classes.container}>
-      <p className={classes.popupText}>
-        {username} chce dołączyć do Twojej gry!
-      </p>
+      <p className={classes.popupText}>{username} wants to join your game!</p>
       <div className={classes.buttonsGroup}>
         <button onClick={acceptKnockingHandler} className={classes.popupButton}>
-          Akceptuj
+          Accept
         </button>
-        <button className={classes.popupButton}>Odrzuć</button>
+        <button className={classes.popupButton}>Reject</button>
       </div>
     </div>
   );

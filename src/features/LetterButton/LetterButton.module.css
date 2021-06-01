@@ -16,7 +16,7 @@
 
 .disabled,
 .disabled:hover {
-  color: black;
+  color: grey;
   cursor: not-allowed;
 }
 

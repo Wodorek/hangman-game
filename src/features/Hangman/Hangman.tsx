@@ -10,10 +10,9 @@ interface IProps {
 }
 
 const Hangman: React.FC<IProps> = (props) => {
-  //I really backed myself into a corner with how I chose to display the "parts"
-  //Redo this later?
-
   const { incorrectGuesses, gameOver } = props;
+
+  //TODO take out svgs code into seperate component
 
   return (
     <div className={classes.container}>

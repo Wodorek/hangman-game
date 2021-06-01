@@ -8,8 +8,10 @@ import { saveRoomId } from '../Game/gameSlice';
 import useSound from 'use-sound';
 import popSound from '../../sounds/popSound.mp3';
 import Button from '../../common/UIElements/Button/Button';
+import useConnectionState from '../../common/hooks/useConnectionState';
 
 const Lobby = () => {
+  const checkConnection = useConnectionState();
   const [roomId, setRoomId] = useState('');
   const [roomCode, setRoomCode] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -21,15 +23,13 @@ const Lobby = () => {
   const dispatch = useDispatch();
 
   const knockToRoom = (roomId: string) => {
+    checkConnection();
     socket.emit('knock to room', { roomId: roomId });
     dispatch(saveRoomId(roomId));
   };
 
   const createRoomHandler = () => {
-    if (socket.connected === false) {
-      alert('seems like you got disconnected, please reconnect');
-      history.replace('/');
-    }
+    checkConnection();
     setCopied(false);
     setRoomCode(socket.id);
   };
@@ -42,6 +42,7 @@ const Lobby = () => {
 
   const declineEntranceHandler = () => {
     setShowModal(false);
+    // reject the connection some way?
   };
 
   useEffect(() => {
@@ -60,7 +61,7 @@ const Lobby = () => {
       socket.off('user knocking');
       socket.off('allow entrance');
     };
-  }, [history, play]);
+  }, [checkConnection, history, play]);
 
   //I should split that into components
   return (

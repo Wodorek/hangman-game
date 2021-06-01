@@ -7,6 +7,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import GameOverScreen from '../GameOverScreen/GameOverScreen';
 import penStroke from '../../sounds/penStroke.mp3';
 import useSound from 'use-sound';
+import useConnectionState from '../../common/hooks/useConnectionState';
 
 interface LocationState {
   isHost: boolean;
@@ -20,6 +21,7 @@ const Game = () => {
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
   const [word, setWord] = useState('');
   const [play] = useSound(penStroke);
+  const checkConnection = useConnectionState();
 
   const location = useLocation<LocationState>();
   const history = useHistory();
@@ -32,6 +34,15 @@ const Game = () => {
     if (isHost === null) {
       setIsHost(location.state.isHost);
     }
+
+    checkConnection();
+
+    socket.on('user disconnected', () => {
+      alert(
+        'Whoops, seems like your opponent left, or got disconnected, please create a new game'
+      );
+      history.push('/lobby');
+    });
 
     socket.on('game over', (won: boolean) => {
       setGameOver(true);
@@ -53,6 +64,7 @@ const Game = () => {
     });
 
     socket.on('pick letter', ({ letter, correct }) => {
+      console.log(correct);
       if (!correct) {
         play();
         setIncorrectGuesses((prev) => prev + 1);
@@ -65,8 +77,16 @@ const Game = () => {
       socket.off('game over');
       socket.off('game reset');
       socket.off('pick letter');
+      socket.off('user disconnected');
     };
-  }, [history, incorrectGuesses, isHost, location.state, play]);
+  }, [
+    checkConnection,
+    history,
+    incorrectGuesses,
+    isHost,
+    location.state,
+    play,
+  ]);
 
   return (
     <div>

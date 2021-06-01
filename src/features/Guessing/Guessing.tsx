@@ -24,6 +24,7 @@ const Guessing: React.FC<IProps> = (props) => {
   const checkForGameEnd = () => {
     //check for win first
     let alreadyWon = true;
+    console.log(props.incorrectGuesses);
 
     for (let letter of wordToGuess) {
       if (letter.guessed === false) {
@@ -33,12 +34,12 @@ const Guessing: React.FC<IProps> = (props) => {
     }
 
     if (alreadyWon) {
-      socket.emit('game over', { won: true, roomId: gameRoom });
+      return socket.emit('game over', { won: true, roomId: gameRoom });
     }
 
     //check for loss
-    if (props.incorrectGuesses === 9) {
-      socket.emit('game over', { won: false, roomId: gameRoom });
+    if (props.incorrectGuesses > 8) {
+      return socket.emit('game over', { won: false, roomId: gameRoom });
     }
   };
 
@@ -48,12 +49,12 @@ const Guessing: React.FC<IProps> = (props) => {
     }
     const lowercased = letter.toLowerCase();
     let guessCorrect = false;
-    const afterGuess = wordToGuess.map((word: IWord) => {
-      if (word.letter === lowercased) {
+    const afterGuess = wordToGuess.map((letterToGuess: IWord) => {
+      if (letterToGuess.letter === lowercased) {
         guessCorrect = true;
-        word.guessed = true;
+        letterToGuess.guessed = true;
       }
-      return word;
+      return letterToGuess;
     });
 
     socket.emit('pick letter', {
@@ -61,6 +62,7 @@ const Guessing: React.FC<IProps> = (props) => {
       correct: guessCorrect,
       roomId: gameRoom,
     });
+
     setWordToGuess(afterGuess);
     checkForGameEnd();
   };

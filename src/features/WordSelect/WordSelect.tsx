@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import classes from './WordSelect.module.css';
 import Button from '../../common/UIElements/Button/Button';

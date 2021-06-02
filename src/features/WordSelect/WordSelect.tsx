@@ -50,7 +50,11 @@ const WordSelect: React.FC<IProps> = (props) => {
       <h2>Letters guessed so far:</h2>
       <div className={classes.guessed}>
         {props.guessedLetters.map((el) => {
-          return <p key={el}>{el},</p>;
+          return (
+            <p className={classes.letter} key={el}>
+              {el}
+            </p>
+          );
         })}
       </div>
     </div>

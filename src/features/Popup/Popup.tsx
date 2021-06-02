@@ -32,7 +32,12 @@ const Popup: React.FC<IProps> = (props) => {
         <button onClick={acceptKnockingHandler} className={classes.popupButton}>
           Accept
         </button>
-        <button className={classes.popupButton}>Reject</button>
+        <button
+          onClick={props.declineEntrance()}
+          className={classes.popupButton}
+        >
+          Reject
+        </button>
       </div>
     </div>
   );

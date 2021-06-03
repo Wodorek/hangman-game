@@ -1,4 +1,4 @@
-# Knowyourvocab
+# hangman-game
 
 A real time, two player version of the classing word guessing game Hangman.
 

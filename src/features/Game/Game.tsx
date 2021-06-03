@@ -20,10 +20,9 @@ const Game = () => {
   const [incorrectGuesses, setIncorrectGuesses] = useState(0);
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
   const [word, setWord] = useState('');
-  const [play] = useSound(penStroke);
   const checkConnection = useConnectionState();
-
   const location = useLocation<LocationState>();
+  const [play] = useSound(penStroke);
   const history = useHistory();
 
   useEffect(() => {

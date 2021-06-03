@@ -35,9 +35,11 @@ const Lobby = () => {
   };
 
   const textSelectHandler = (target: HTMLInputElement) => {
-    target.select();
-    navigator.clipboard.writeText(roomCode);
-    setCopied(true);
+    if (roomCode) {
+      target.select();
+      navigator.clipboard.writeText(roomCode);
+      setCopied(true);
+    }
   };
 
   const declineEntranceHandler = () => {

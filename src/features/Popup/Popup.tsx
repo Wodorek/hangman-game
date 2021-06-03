@@ -33,7 +33,7 @@ const Popup: React.FC<IProps> = (props) => {
           Accept
         </button>
         <button
-          onClick={props.declineEntrance()}
+          onClick={() => props.declineEntrance()}
           className={classes.popupButton}
         >
           Reject

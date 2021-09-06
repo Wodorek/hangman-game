@@ -63,7 +63,6 @@ const Game = () => {
     });
 
     socket.on('pick letter', ({ letter, correct }) => {
-      console.log(correct);
       if (!correct) {
         play();
         setIncorrectGuesses((prev) => prev + 1);

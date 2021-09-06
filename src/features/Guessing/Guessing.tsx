@@ -24,7 +24,6 @@ const Guessing: React.FC<IProps> = (props) => {
   const checkForGameEnd = () => {
     //check for win first
     let alreadyWon = true;
-    console.log(props.incorrectGuesses);
 
     for (let letter of wordToGuess) {
       if (letter.guessed === false) {
